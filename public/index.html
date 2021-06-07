@@ -25,8 +25,18 @@
     var socket = io('http://localhost:3001') //ouvindo a conexão via socket
 
     function renderMessage(message) {
-        $('.messages').append('<div class="message"><strong>'+ message.author +'</strong> '+ message.message+'</div>'); //aparece as mensagens na tela
+        $('.messages').append('<div class="message"><strong>'+ message.author +'</strong>: '+ message.message+'</div>'); //aparece as mensagens na tela
     }
+
+    socket.on('previousMessages', function(messages) {
+        for( message of messages) {
+            renderMessage(message)
+        }
+    })
+    
+    socket.on('receivedMenssage', function(message) {
+        renderMessage(message);
+    })
 
     $('#chat').submit(function(event) {
         event.preventDefault();
